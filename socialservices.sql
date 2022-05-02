@@ -3,10 +3,10 @@
 
 -- Drop columns
 Alter Table NYCprograms$
-Drop Column [Population served];
+Drop Column [Population served]
 
 Alter Table NYCprograms$
-Drop Column [Age Group];
+Drop Column [Age Group]
 
 -- Fix strings
 Select [Program category] From SocialServices..NYCprograms$
@@ -16,15 +16,15 @@ Select [Program category], COUNT(*) As Count From SocialServices..NYCprograms$ G
 
 -- Fix strings
 Update SocialServices..NYCprograms$
-  Set pop1=REPLACE(pop1,'Pregnant &amp; new parents', 'Pregnant & new parents'),
-      pop2=REPLACE(pop2,'Pregnant &amp; new parents', 'Pregnant & new parents'),
-	  pop3=REPLACE(pop3,'Pregnant &amp; new parents', 'Pregnant & new parents'),
-	  pop4=REPLACE(pop4,'Pregnant &amp; new parents', 'Pregnant & new parents'),
-	  pop5=REPLACE(pop5,'Pregnant &amp; new parents', 'Pregnant & new parents'),
-	  pop6=REPLACE(pop6,'Pregnant &amp; new parents', 'Pregnant & new parents'),
-	  pop7=REPLACE(pop7,'Pregnant &amp; new parents', 'Pregnant & new parents'),
-	  pop8=REPLACE(pop8,'Pregnant &amp; new parents', 'Pregnant & new parents'),
-	  pop9=REPLACE(pop9,'Pregnant &amp; new parents', 'Pregnant & new parents')
+  Set pop1 = REPLACE(pop1,'Pregnant &amp; new parents', 'Pregnant & new parents'),
+      pop2 = REPLACE(pop2,'Pregnant &amp; new parents', 'Pregnant & new parents'),
+      pop3 = REPLACE(pop3,'Pregnant &amp; new parents', 'Pregnant & new parents'),
+      pop4 = REPLACE(pop4,'Pregnant &amp; new parents', 'Pregnant & new parents'),
+      pop5 = REPLACE(pop5,'Pregnant &amp; new parents', 'Pregnant & new parents'),
+      pop6 = REPLACE(pop6,'Pregnant &amp; new parents', 'Pregnant & new parents'),
+      pop7 = REPLACE(pop7,'Pregnant &amp; new parents', 'Pregnant & new parents'),
+      pop8 = REPLACE(pop8,'Pregnant &amp; new parents', 'Pregnant & new parents'),
+      pop9 = REPLACE(pop9,'Pregnant &amp; new parents', 'Pregnant & new parents')
 
 -- Change similar strings to be the exact same string
 Update SocialServices..NYCprograms$
@@ -36,13 +36,13 @@ Update SocialServices..NYCprograms$
 Update SocialServices..NYCprograms$    
    Set [Government agency] = REPLACE([Government agency], 'NYC Department of Education/NYC Department of Health and Mental Hygiene', 'NYC Department of Education/NYC Department of Health & Mental Hygiene')
 Update SocialServices..NYCprograms$	   
-	Set [Government agency] = REPLACE([Government agency], 'NYC Administration for Children\u2019s Services', 'NYC Administration for Children''s Services')
+   Set [Government agency] = REPLACE([Government agency], 'NYC Administration for Children\u2019s Services', 'NYC Administration for Children''s Services')
 Update SocialServices..NYCprograms$	   
-	Set [Government agency] = REPLACE([Government agency], 'NYC Department of Education/District 79', 'NYC Department of Education')
+   Set [Government agency] = REPLACE([Government agency], 'NYC Department of Education/District 79', 'NYC Department of Education')
 
 -- All entries in pop columns have a space in front of them, except for pop1. Add space in front of all entries in pop1 column 
 Update SocialServices..NYCprograms$
-	Set pop1 = ' '+pop1 
+   Set pop1 = ' '+pop1 
 
 -- Delete duplicate rows
 With cte As(
@@ -60,6 +60,7 @@ Select * From SocialServices..resource_map
 Join SocialServices..demographics 
 On resource_map.ZIP = demographics.[JURISDICTION NAME]
 
+-- Count occurances of each type of social service (Program category)
 Select Service, Count(*) From SocialServices..resource_map Group By Service
 Select [Program category], Count(*) From SocialServices..NYCPrograms$ Group By [Program category]
 
